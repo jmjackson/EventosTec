@@ -14,7 +14,7 @@ namespace EventosTec.Web.Models.Entities
         [Display(Name ="Nombre")]
         public string FirstName { get; set; }
         [MaxLength(50)]
-        [Display(Name = "Appelidos")]
+        [Display(Name = "Apellidos")]
         public string LastName { get; set; }
         [MaxLength(50)]
         [Display(Name = "Telefono")]
