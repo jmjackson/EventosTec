@@ -9,20 +9,13 @@ namespace EventosTec.Web.Models.Entities
     public class Client
     {
         public int Id { get; set; }
-        [Required]
-        [MaxLength(50)]
-        [Display(Name ="Nombre")]
-        public string FirstName { get; set; }
-        [MaxLength(50)]
-        [Display(Name = "Apellidos")]
-        public string LastName { get; set; }
+       
         [MaxLength(500)]
         [Display(Name = "Dirección")]
         public string Address { get; set; }
         public User User { get; set; }
 
-        [Display(Name ="Nombre Completo")]
-        public string FullName => $"{FirstName} {LastName}";
+      
 
     }
 }

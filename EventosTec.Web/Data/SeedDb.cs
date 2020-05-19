@@ -25,8 +25,9 @@ namespace EventosTec.Web.Data
             var manager = await CheckUserAsync("Juan", "Hernandez", "admin@adminmail.com", "664 123 45 67", 
                  "Admin");
             var customer = await CheckUserAsync("Juan", "Hernandez", "cliente@clientemail.com", "664 987 65 43", 
-                 "Cliente");
-            
+                 "Client");
+            await CheckManagerAsync(manager);
+            await CheckClientAsync(customer);
 
         }
 
@@ -34,6 +35,23 @@ namespace EventosTec.Web.Data
         {
             await uh.CheckRoleAsync("Admin");
             await uh.CheckRoleAsync("Client");
+        }
+        private async Task CheckClientAsync(User user)
+        {
+            if (!dc.Clients.Any())
+            {
+                dc.Clients.Add(new Client { User = user });
+                await dc.SaveChangesAsync();
+            }
+        }
+
+        private async Task CheckManagerAsync(User user)
+        {
+            if (!dc.Managers.Any())
+            {
+                dc.Managers.Add(new Manager { User = user });
+                await dc.SaveChangesAsync();
+            }
         }
 
         private async Task<User> CheckUserAsync(string firstName,string lastName,string email,
