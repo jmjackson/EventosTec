@@ -29,6 +29,8 @@ namespace EventosTec.Web.Models.Entities
         [ForeignKey("CityId")]
         public City City { get; set; }
 
+        public Client Client { get; set; }
+
 
 
     }
