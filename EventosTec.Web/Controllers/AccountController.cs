@@ -40,6 +40,7 @@ namespace EventosTec.Web.Controllers
                 }
             
             ModelState.AddModelError(string.Empty, "Failed to login.");
+
             return View(model);
         }
         public async Task<IActionResult> Logout()
