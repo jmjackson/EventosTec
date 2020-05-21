@@ -12,22 +12,22 @@ using Microsoft.AspNetCore.Authorization;
 namespace EventosTec.Web.Controllers
 {
     [Authorize]
-    public class CitiesController : Controller
+    public class CategoriesController : Controller
     {
         private readonly DataDbContext _context;
 
-        public CitiesController(DataDbContext context)
+        public CategoriesController(DataDbContext context)
         {
             _context = context;
         }
 
-        // GET: Cities
+        // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cities.Include(a=>a.Events).ToListAsync());
+            return View(await _context.Categories.Include(e=>e.Events).ToListAsync());
         }
 
-        // GET: Cities/Details/5
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +35,39 @@ namespace EventosTec.Web.Controllers
                 return NotFound();
             }
 
-            var city = await _context.Cities
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (city == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(city);
+            return View(category);
         }
 
-        // GET: Cities/Create
+        // GET: Categories/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Cities/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Slung")] City city)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(city);
+                _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(city);
+            return View(category);
         }
 
-        // GET: Cities/Edit/5
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +75,22 @@ namespace EventosTec.Web.Controllers
                 return NotFound();
             }
 
-            var city = await _context.Cities.FindAsync(id);
-            if (city == null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            return View(city);
+            return View(category);
         }
 
-        // POST: Cities/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Slung")] City city)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Category category)
         {
-            if (id != city.Id)
+            if (id != category.Id)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace EventosTec.Web.Controllers
             {
                 try
                 {
-                    _context.Update(city);
+                    _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CityExists(city.Id))
+                    if (!CategoryExists(category.Id))
                     {
                         return NotFound();
                     }
@@ -115,10 +115,10 @@ namespace EventosTec.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(city);
+            return View(category);
         }
 
-        // GET: Cities/Delete/5
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,30 +126,30 @@ namespace EventosTec.Web.Controllers
                 return NotFound();
             }
 
-            var city = await _context.Cities
+            var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (city == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(city);
+            return View(category);
         }
 
-        // POST: Cities/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var city = await _context.Cities.FindAsync(id);
-            _context.Cities.Remove(city);
+            var category = await _context.Categories.FindAsync(id);
+            _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CityExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Cities.Any(e => e.Id == id);
+            return _context.Categories.Any(e => e.Id == id);
         }
     }
 }

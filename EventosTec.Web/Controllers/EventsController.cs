@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EventosTec.Web.Models;
 using EventosTec.Web.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EventosTec.Web.Controllers
 {
+    [Authorize]
     public class EventsController : Controller
     {
         private readonly DataDbContext _context;
@@ -22,6 +24,7 @@ namespace EventosTec.Web.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
+          
             var dataDbContext = _context.Events.Include(a => @a.City);
             return View(await dataDbContext.ToListAsync());
         }
@@ -48,6 +51,9 @@ namespace EventosTec.Web.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
+            var username = User.Identity.Name;
+            var userid = _context.Clients.Where(a => a.User.Email == username).FirstOrDefault();
+            ViewBag.ClientId = userid.Id;
             ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name");
             return View();
         }
