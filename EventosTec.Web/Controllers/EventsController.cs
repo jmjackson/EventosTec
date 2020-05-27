@@ -67,6 +67,21 @@ namespace EventosTec.Web.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateEvent(Event @event)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(@event);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.ClientId = _context.Clients.Include(u => u.User).ToList();
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Name",@event.CityId);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name",@event.CategoryId);
+            return View();
+        }
 
         // POST: Events/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
